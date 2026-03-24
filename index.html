@@ -1,1131 +1,798 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Maritime Murals — Bold Custom Murals in the Maritimes</title>
-  <meta name="description" content="Maritime Murals by Payton Schofield — vibrant, hand-painted custom murals for homes, businesses, and public spaces across New Brunswick and the Maritime provinces. maritimemurals.ca">
-  <link rel="canonical" href="https://maritimemurals.ca">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    /* ── Reset & Base ── */
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-    :root {
-      --teal: #00e5cc;
-      --teal-dark: #00b8a3;
-      --pink: #ff2d8a;
-      --pink-light: #ff5da0;
-      --lime: #a8ff00;
-      --purple: #b44dff;
-      --purple-light: #c97aff;
-      --yellow: #ffe600;
-      --dark: #111111;
-      --dark-mid: #1a1a1a;
-      --dark-card: #222222;
-      --dark-light: #2a2a2a;
-      --white: #ffffff;
-      --grey: #888888;
-      --grey-light: #aaaaaa;
-    }
-
-    html { scroll-behavior: smooth; font-size: 16px; }
-
-    body {
-      font-family: 'Outfit', sans-serif;
-      color: var(--white);
-      background: var(--dark);
-      line-height: 1.7;
-      font-weight: 300;
-      overflow-x: hidden;
-    }
-
-    h1, h2, h3, h4 { font-family: 'Playfair Display', serif; font-weight: 600; line-height: 1.2; }
-
-    a { text-decoration: none; color: inherit; }
-    img { max-width: 100%; display: block; }
-    ul { list-style: none; }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 2rem;
-    }
-
-    /* ── Paint Splatter Decorations ── */
-    .splatter {
-      position: absolute;
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 0;
-      filter: blur(1px);
-    }
-
-    /* ── Animations ── */
-    .fade-in {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
-    }
-    .fade-in.visible { opacity: 1; transform: translateY(0); }
-    .fade-in-left {
-      opacity: 0;
-      transform: translateX(-40px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
-    }
-    .fade-in-left.visible { opacity: 1; transform: translateX(0); }
-    .fade-in-right {
-      opacity: 0;
-      transform: translateX(40px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
-    }
-    .fade-in-right.visible { opacity: 1; transform: translateX(0); }
-
-    /* ── Section Shared ── */
-    .section-label {
-      font-family: 'Outfit', sans-serif;
-      font-weight: 700;
-      font-size: 0.75rem;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--teal);
-      margin-bottom: 0.75rem;
-    }
-
-    .section-title {
-      font-size: clamp(2rem, 4vw, 3rem);
-      color: var(--white);
-      margin-bottom: 1.5rem;
-    }
-
-    .section-divider {
-      width: 60px;
-      height: 3px;
-      background: linear-gradient(to right, var(--pink), var(--teal), var(--lime));
-      margin: 0 auto 2rem;
-      border: none;
-      border-radius: 2px;
-    }
-
-    section { padding: 6rem 0; position: relative; overflow: hidden; }
-
-    /* ── Header ── */
-    .header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      z-index: 1000;
-      padding: 1.25rem 0;
-      transition: all 0.4s ease;
-      background: transparent;
-    }
-
-    .header.scrolled {
-      background: rgba(17, 17, 17, 0.95);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      padding: 0.75rem 0;
-      box-shadow: 0 1px 20px rgba(0, 229, 204, 0.1);
-    }
-
-    .header .container {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--white);
-      transition: color 0.4s ease;
-    }
-    .logo span { color: var(--teal); }
-
-    .nav-links {
-      display: flex;
-      gap: 2.5rem;
-      align-items: center;
-    }
-
-    .nav-links a {
-      font-size: 0.85rem;
-      font-weight: 600;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.7);
-      position: relative;
-      transition: color 0.3s ease;
-    }
-    .nav-links a::after {
-      content: '';
-      position: absolute;
-      bottom: -4px;
-      left: 0;
-      width: 0;
-      height: 2px;
-      background: linear-gradient(to right, var(--pink), var(--teal));
-      transition: width 0.3s ease;
-    }
-    .nav-links a:hover { color: var(--teal); }
-    .nav-links a:hover::after { width: 100%; }
-
-    /* Mobile menu */
-    .menu-toggle {
-      display: none;
-      flex-direction: column;
-      gap: 5px;
-      cursor: pointer;
-      background: none;
-      border: none;
-      padding: 4px;
-    }
-    .menu-toggle span {
-      display: block;
-      width: 26px;
-      height: 2px;
-      background: var(--white);
-      border-radius: 2px;
-      transition: all 0.3s ease;
-    }
-
-    .menu-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
-    .menu-toggle.active span:nth-child(2) { opacity: 0; }
-    .menu-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
-
-    /* ── Hero ── */
-    .hero {
-      position: relative;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 0 2rem;
-      overflow: hidden;
-      background: var(--dark);
-    }
-
-    /* Paint splatter background */
-    .hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(circle 180px at 15% 25%, rgba(0, 229, 204, 0.25) 0%, transparent 70%),
-        radial-gradient(circle 140px at 80% 20%, rgba(255, 45, 138, 0.3) 0%, transparent 65%),
-        radial-gradient(circle 200px at 70% 75%, rgba(168, 255, 0, 0.2) 0%, transparent 60%),
-        radial-gradient(circle 120px at 25% 80%, rgba(180, 77, 255, 0.25) 0%, transparent 65%),
-        radial-gradient(circle 100px at 50% 50%, rgba(255, 230, 0, 0.15) 0%, transparent 55%),
-        radial-gradient(circle 90px at 90% 50%, rgba(0, 229, 204, 0.2) 0%, transparent 60%),
-        radial-gradient(circle 70px at 40% 15%, rgba(255, 45, 138, 0.2) 0%, transparent 55%),
-        radial-gradient(circle 110px at 10% 60%, rgba(255, 230, 0, 0.18) 0%, transparent 60%),
-        radial-gradient(circle 85px at 60% 40%, rgba(180, 77, 255, 0.15) 0%, transparent 55%);
-      z-index: 0;
-    }
-
-    /* Splatter dots layer */
-    .hero::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(circle 8px at 12% 18%, var(--teal) 0%, transparent 100%),
-        radial-gradient(circle 5px at 14% 22%, var(--teal) 0%, transparent 100%),
-        radial-gradient(circle 12px at 85% 15%, var(--pink) 0%, transparent 100%),
-        radial-gradient(circle 6px at 82% 12%, var(--pink) 0%, transparent 100%),
-        radial-gradient(circle 4px at 88% 18%, var(--pink) 0%, transparent 100%),
-        radial-gradient(circle 10px at 75% 80%, var(--lime) 0%, transparent 100%),
-        radial-gradient(circle 6px at 72% 76%, var(--lime) 0%, transparent 100%),
-        radial-gradient(circle 3px at 78% 82%, var(--lime) 0%, transparent 100%),
-        radial-gradient(circle 9px at 20% 75%, var(--purple) 0%, transparent 100%),
-        radial-gradient(circle 5px at 23% 78%, var(--purple) 0%, transparent 100%),
-        radial-gradient(circle 7px at 50% 10%, var(--yellow) 0%, transparent 100%),
-        radial-gradient(circle 4px at 52% 13%, var(--yellow) 0%, transparent 100%),
-        radial-gradient(circle 11px at 92% 55%, var(--teal) 0%, transparent 100%),
-        radial-gradient(circle 5px at 8% 45%, var(--pink) 0%, transparent 100%),
-        radial-gradient(circle 8px at 35% 90%, var(--yellow) 0%, transparent 100%),
-        radial-gradient(circle 6px at 65% 5%, var(--purple) 0%, transparent 100%),
-        radial-gradient(circle 4px at 45% 65%, var(--lime) 0%, transparent 100%);
-      opacity: 0.7;
-      z-index: 1;
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      max-width: 800px;
-    }
-
-    .hero-label {
-      font-family: 'Outfit', sans-serif;
-      font-weight: 700;
-      font-size: 0.8rem;
-      letter-spacing: 5px;
-      text-transform: uppercase;
-      color: var(--teal);
-      margin-bottom: 1.5rem;
-      opacity: 0;
-      animation: heroFadeUp 1s ease 0.3s forwards;
-    }
-
-    .hero h1 {
-      font-size: clamp(2.5rem, 6vw, 5rem);
-      color: var(--white);
-      font-weight: 700;
-      margin-bottom: 1.5rem;
-      opacity: 0;
-      animation: heroFadeUp 1s ease 0.5s forwards;
-    }
-    .hero h1 em {
-      font-style: italic;
-      background: linear-gradient(135deg, var(--pink), var(--teal), var(--lime));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .hero-sub {
-      font-size: 1.15rem;
-      color: rgba(255,255,255,0.6);
-      max-width: 550px;
-      margin: 0 auto 2.5rem;
-      line-height: 1.8;
-      opacity: 0;
-      animation: heroFadeUp 1s ease 0.7s forwards;
-    }
-
-    .hero-btn {
-      display: inline-block;
-      padding: 1rem 3rem;
-      font-family: 'Outfit', sans-serif;
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--dark);
-      background: var(--teal);
-      border: 2px solid var(--teal);
-      border-radius: 50px;
-      transition: all 0.4s ease;
-      opacity: 0;
-      animation: heroFadeUp 1s ease 0.9s forwards;
-      box-shadow: 0 0 25px rgba(0, 229, 204, 0.3);
-    }
-    .hero-btn:hover {
-      background: transparent;
-      color: var(--teal);
-      box-shadow: 0 0 35px rgba(0, 229, 204, 0.5);
-    }
-
-    .hero-scroll {
-      position: absolute;
-      bottom: 2.5rem;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 2;
-      color: rgba(255,255,255,0.4);
-      font-size: 0.7rem;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      text-align: center;
-      animation: float 3s ease-in-out infinite;
-    }
-    .hero-scroll::after {
-      content: '';
-      display: block;
-      width: 1px;
-      height: 40px;
-      background: linear-gradient(to bottom, var(--teal), transparent);
-      margin: 0.75rem auto 0;
-    }
-
-    @keyframes heroFadeUp {
-      from { opacity: 0; transform: translateY(25px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes float {
-      0%, 100% { transform: translateX(-50%) translateY(0); }
-      50% { transform: translateX(-50%) translateY(-8px); }
-    }
-
-    /* ── About ── */
-    .about { background: var(--dark-mid); }
-
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      align-items: center;
-    }
-
-    .about-image {
-      position: relative;
-    }
-    .about-image img {
-      width: 100%;
-      height: 500px;
-      object-fit: cover;
-      border-radius: 4px;
-    }
-    .about-image::before {
-      content: '';
-      position: absolute;
-      top: -12px;
-      left: -12px;
-      width: 100%;
-      height: 100%;
-      border: 2px solid var(--pink);
-      border-radius: 4px;
-      z-index: -1;
-    }
-    .about-image::after {
-      content: '';
-      position: absolute;
-      bottom: -12px;
-      right: -12px;
-      width: 100%;
-      height: 100%;
-      border: 2px solid var(--teal);
-      border-radius: 4px;
-      z-index: -1;
-    }
-
-    .about-text p {
-      margin-bottom: 1.25rem;
-      color: var(--grey-light);
-      font-size: 1.05rem;
-    }
-
-    .about-signature {
-      font-family: 'Playfair Display', serif;
-      font-style: italic;
-      font-size: 1.5rem;
-      background: linear-gradient(to right, var(--pink), var(--purple));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-top: 1.5rem;
-    }
-
-    /* About section splatter decorations */
-    .about::before {
-      content: '';
-      position: absolute;
-      top: 40px;
-      right: 60px;
-      width: 80px;
-      height: 80px;
-      background: radial-gradient(circle, rgba(168, 255, 0, 0.15) 0%, transparent 70%);
-      border-radius: 50%;
-      pointer-events: none;
-    }
-    .about::after {
-      content: '';
-      position: absolute;
-      bottom: 60px;
-      left: 40px;
-      width: 100px;
-      height: 100px;
-      background: radial-gradient(circle, rgba(255, 45, 138, 0.12) 0%, transparent 70%);
-      border-radius: 50%;
-      pointer-events: none;
-    }
-
-    /* ── Portfolio ── */
-    .portfolio { background: var(--dark); text-align: center; }
-
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-      margin-top: 3rem;
-    }
-
-    .gallery-item {
-      position: relative;
-      overflow: hidden;
-      cursor: pointer;
-      aspect-ratio: 4 / 3;
-      border-radius: 4px;
-    }
-
-    .gallery-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.6s ease, filter 0.6s ease;
-    }
-
-    .gallery-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to top, rgba(17, 17, 17, 0.9) 0%, transparent 60%);
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 1.5rem;
-      opacity: 0;
-      transition: opacity 0.4s ease;
-    }
-
-    .gallery-overlay h4 {
-      color: var(--white);
-      font-size: 1.2rem;
-      margin-bottom: 0.25rem;
-    }
-    .gallery-overlay span {
-      color: var(--teal);
-      font-size: 0.8rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      font-weight: 700;
-    }
-
-    .gallery-item:hover img {
-      transform: scale(1.08);
-      filter: brightness(0.7);
-    }
-    .gallery-item:hover .gallery-overlay { opacity: 1; }
-
-    .gallery-item:nth-child(1) { grid-column: span 2; aspect-ratio: 8/3; }
-    .gallery-item:nth-child(6) { grid-column: span 2; aspect-ratio: 8/3; }
-
-    /* ── Services ── */
-    .services { background: var(--dark-mid); text-align: center; }
-
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 2rem;
-      margin-top: 3rem;
-    }
-
-    .service-card {
-      padding: 2.5rem 1.5rem;
-      background: var(--dark-card);
-      border-radius: 8px;
-      transition: all 0.4s ease;
-      position: relative;
-      overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.05);
-    }
-    .service-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 3px;
-      background: linear-gradient(to right, var(--pink), var(--teal), var(--lime));
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.4s ease;
-    }
-    .service-card:hover::before { transform: scaleX(1); }
-    .service-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 40px rgba(0, 229, 204, 0.1);
-      border-color: rgba(0, 229, 204, 0.2);
-    }
-
-    .service-icon {
-      font-size: 2.5rem;
-      margin-bottom: 1.25rem;
-      display: block;
-    }
-
-    .service-card h3 {
-      font-size: 1.15rem;
-      margin-bottom: 0.75rem;
-      color: var(--white);
-    }
-
-    .service-card p {
-      font-size: 0.95rem;
-      color: var(--grey);
-      line-height: 1.7;
-    }
-
-    /* Services section splatter */
-    .services::before {
-      content: '';
-      position: absolute;
-      top: -40px;
-      left: 10%;
-      width: 150px;
-      height: 150px;
-      background: radial-gradient(circle, rgba(180, 77, 255, 0.1) 0%, transparent 70%);
-      border-radius: 50%;
-      pointer-events: none;
-    }
-
-    /* ── Testimonial Banner ── */
-    .testimonial-banner {
-      position: relative;
-      overflow: hidden;
-      background: var(--dark);
-      padding: 5rem 2rem;
-      text-align: center;
-    }
-
-    .testimonial-banner::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(circle 200px at 10% 50%, rgba(255, 45, 138, 0.15) 0%, transparent 70%),
-        radial-gradient(circle 200px at 90% 50%, rgba(0, 229, 204, 0.15) 0%, transparent 70%),
-        radial-gradient(circle 100px at 50% 20%, rgba(255, 230, 0, 0.1) 0%, transparent 60%);
-      pointer-events: none;
-    }
-
-    .testimonial-banner blockquote {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(1.3rem, 3vw, 2rem);
-      font-style: italic;
-      color: var(--white);
-      max-width: 700px;
-      margin: 0 auto 1.5rem;
-      line-height: 1.6;
-      position: relative;
-      z-index: 1;
-    }
-
-    .testimonial-banner cite {
-      font-family: 'Outfit', sans-serif;
-      font-style: normal;
-      font-size: 0.8rem;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--pink);
-      position: relative;
-      z-index: 1;
-    }
-
-    /* ── Contact ── */
-    .contact { background: var(--dark-mid); }
-
-    .contact-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      margin-top: 3rem;
-    }
-
-    .contact-info h3 {
-      font-size: 1.8rem;
-      margin-bottom: 1.25rem;
-    }
-
-    .contact-info p {
-      color: var(--grey);
-      margin-bottom: 2rem;
-      font-size: 1.05rem;
-    }
-
-    .contact-detail {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 1.25rem;
-      color: var(--grey-light);
-    }
-
-    .contact-detail-icon {
-      width: 44px;
-      height: 44px;
-      background: var(--dark-card);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
-      flex-shrink: 0;
-      border: 1px solid rgba(255,255,255,0.08);
-      box-shadow: 0 0 15px rgba(0, 229, 204, 0.05);
-    }
-
-    .contact-detail span { font-size: 0.95rem; }
-    .contact-detail a {
-      color: var(--teal);
-      transition: color 0.3s ease;
-    }
-    .contact-detail a:hover { color: var(--pink); }
-
-    .contact-form { display: flex; flex-direction: column; gap: 1.25rem; }
-
-    .form-group { position: relative; }
-
-    .form-group input,
-    .form-group textarea {
-      width: 100%;
-      padding: 1rem 1.25rem;
-      font-family: 'Outfit', sans-serif;
-      font-size: 0.95rem;
-      font-weight: 300;
-      color: var(--white);
-      background: var(--dark-card);
-      border: 1.5px solid rgba(255,255,255,0.08);
-      border-radius: 8px;
-      outline: none;
-      transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    }
-    .form-group input:focus,
-    .form-group textarea:focus {
-      border-color: var(--teal);
-      box-shadow: 0 0 0 3px rgba(0, 229, 204, 0.15);
-    }
-    .form-group input::placeholder,
-    .form-group textarea::placeholder {
-      color: #555;
-    }
-
-    .form-group textarea { resize: vertical; min-height: 150px; }
-
-    .submit-btn {
-      display: inline-block;
-      padding: 1rem 3rem;
-      font-family: 'Outfit', sans-serif;
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--dark);
-      background: linear-gradient(135deg, var(--teal), var(--lime));
-      border: none;
-      border-radius: 50px;
-      cursor: pointer;
-      transition: all 0.4s ease;
-      align-self: flex-start;
-      box-shadow: 0 0 20px rgba(0, 229, 204, 0.2);
-    }
-    .submit-btn:hover {
-      box-shadow: 0 0 35px rgba(0, 229, 204, 0.4);
-      transform: translateY(-2px);
-    }
-
-    /* ── Footer ── */
-    .footer {
-      background: var(--dark);
-      color: rgba(255,255,255,0.4);
-      padding: 3rem 0;
-      text-align: center;
-      border-top: 1px solid rgba(255,255,255,0.05);
-    }
-
-    .footer-content {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1.5rem;
-    }
-
-    .footer-logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.3rem;
-      font-weight: 700;
-      color: var(--white);
-    }
-    .footer-logo span { color: var(--teal); }
-
-    .footer-links {
-      display: flex;
-      gap: 2rem;
-    }
-    .footer-links a {
-      font-size: 0.8rem;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.35);
-      transition: color 0.3s ease;
-    }
-    .footer-links a:hover { color: var(--teal); }
-
-    .footer-copy {
-      font-size: 0.8rem;
-      color: rgba(255,255,255,0.25);
-    }
-
-    /* ── Responsive ── */
-    @media (max-width: 1024px) {
-      .services-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-
-    @media (max-width: 768px) {
-      .menu-toggle { display: flex; }
-
-      .nav-links {
-        position: fixed;
-        top: 0;
-        right: -100%;
-        width: 280px;
-        height: 100vh;
-        background: var(--dark-mid);
-        flex-direction: column;
-        padding: 6rem 2.5rem 2rem;
-        gap: 1.5rem;
-        transition: right 0.4s ease;
-        box-shadow: -5px 0 30px rgba(0,0,0,0.5);
-      }
-      .nav-links.open { right: 0; }
-      .nav-links a {
-        color: rgba(255,255,255,0.7) !important;
-        font-size: 0.9rem;
-      }
-      .nav-links a:hover { color: var(--teal) !important; }
-
-      .about-grid {
-        grid-template-columns: 1fr;
-        gap: 2.5rem;
-      }
-      .about-image { order: -1; }
-      .about-image img { height: 350px; }
-      .about-image::before, .about-image::after { display: none; }
-
-      .gallery-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 0.75rem;
-      }
-      .gallery-item:nth-child(1),
-      .gallery-item:nth-child(6) { grid-column: span 2; }
-
-      .contact-grid {
-        grid-template-columns: 1fr;
-        gap: 2.5rem;
-      }
-
-      section { padding: 4rem 0; }
-    }
-
-    @media (max-width: 480px) {
-      .gallery-grid { grid-template-columns: 1fr; }
-      .gallery-item:nth-child(1),
-      .gallery-item:nth-child(6) { grid-column: span 1; aspect-ratio: 4/3; }
-      .services-grid { grid-template-columns: 1fr; }
-
-      .hero h1 { font-size: 2.2rem; }
-      .hero-sub { font-size: 1rem; }
-      .footer-links { flex-wrap: wrap; justify-content: center; gap: 1rem; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maritime Murals — Custom Murals and Paintings</title>
+    <meta name="description" content="Maritime Murals by Payton Schofield — Custom murals and paintings in New Brunswick, Canada. Residential, commercial, children's rooms, and custom artwork.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --mint: #a8edea;
+            --sky: #93c5f0;
+            --lavender: #b8a9c9;
+            --lime: #d4fc79;
+            --mint-light: #d4f6f4;
+            --sky-light: #c9e2f7;
+            --lavender-light: #dbd3e8;
+            --text-dark: #3a3a4a;
+            --text-medium: #5a5a6a;
+            --text-light: #7a7a8a;
+            --white: #ffffff;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            color: var(--text-dark);
+            line-height: 1.6;
+            background: var(--white);
+            overflow-x: hidden;
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(168,237,234,0.3);
+            transition: box-shadow 0.3s;
+        }
+
+        nav.scrolled {
+            box-shadow: 0 2px 20px rgba(147,197,240,0.15);
+        }
+
+        .nav-logo {
+            font-family: 'Great Vibes', cursive;
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, var(--mint), var(--sky), var(--lavender));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-medium);
+            font-weight: 400;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--mint), var(--lavender));
+            border-radius: 1px;
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-dark);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .nav-toggle span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--text-medium);
+            margin: 5px 0;
+            border-radius: 2px;
+            transition: 0.3s;
+        }
+
+        /* ── HERO ── */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 6rem 2rem 4rem;
+            background: linear-gradient(135deg, var(--mint) 0%, var(--sky) 40%, var(--lavender) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at 30% 50%, rgba(212,252,121,0.15) 0%, transparent 50%),
+                        radial-gradient(ellipse at 70% 30%, rgba(255,255,255,0.2) 0%, transparent 40%);
+            animation: heroFloat 20s ease-in-out infinite;
+        }
+
+        @keyframes heroFloat {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(2%, -1%) rotate(1deg); }
+            66% { transform: translate(-1%, 1%) rotate(-0.5deg); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-brush {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.7;
+            animation: brushSway 4s ease-in-out infinite;
+        }
+
+        @keyframes brushSway {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+
+        .hero h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(3.5rem, 8vw, 6rem);
+            color: var(--white);
+            text-shadow: 0 2px 30px rgba(0,0,0,0.08);
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+
+        .hero-tagline {
+            font-size: clamp(1rem, 2.5vw, 1.35rem);
+            color: rgba(255,255,255,0.9);
+            font-weight: 300;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-location {
+            font-size: 0.95rem;
+            color: rgba(255,255,255,0.75);
+            font-weight: 300;
+            margin-bottom: 2.5rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.9rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--white);
+            color: var(--text-dark);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+
+        .btn-gradient {
+            background: linear-gradient(135deg, var(--mint), var(--sky), var(--lavender));
+            color: var(--white);
+            box-shadow: 0 4px 20px rgba(147,197,240,0.3);
+        }
+
+        .btn-gradient:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(147,197,240,0.4);
+        }
+
+        .hero-scroll {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            animation: scrollBounce 2s ease-in-out infinite;
+        }
+
+        .hero-scroll svg {
+            width: 28px;
+            height: 28px;
+            stroke: rgba(255,255,255,0.6);
+            stroke-width: 2;
+            fill: none;
+        }
+
+        @keyframes scrollBounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(8px); }
+        }
+
+        /* ── SECTIONS ── */
+        section {
+            padding: 5rem 2rem;
+        }
+
+        .section-white {
+            background: var(--white);
+        }
+
+        .section-gradient {
+            background: linear-gradient(180deg, rgba(168,237,234,0.08) 0%, rgba(147,197,240,0.08) 50%, rgba(184,169,201,0.08) 100%);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3.5rem;
+        }
+
+        .section-header h2 {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(2.2rem, 5vw, 3rem);
+            background: linear-gradient(135deg, var(--sky), var(--lavender));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.75rem;
+        }
+
+        .section-header p {
+            color: var(--text-light);
+            font-weight: 300;
+            font-size: 1.05rem;
+            max-width: 550px;
+            margin: 0 auto;
+        }
+
+        .divider {
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--mint), var(--lavender));
+            border-radius: 2px;
+            margin: 1rem auto;
+        }
+
+        /* ── ABOUT ── */
+        .about-grid {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-icon {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--mint), var(--sky), var(--lavender));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4.5rem;
+            box-shadow: 0 8px 40px rgba(147,197,240,0.25);
+            flex-shrink: 0;
+        }
+
+        .about-text h3 {
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .about-text p {
+            color: var(--text-medium);
+            font-weight: 300;
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        /* ── SERVICES ── */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .service-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.04);
+            border: 1px solid rgba(168,237,234,0.2);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--mint), var(--sky), var(--lavender));
+        }
+
+        .service-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(147,197,240,0.15);
+        }
+
+        .service-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .service-card h3 {
+            font-size: 1.15rem;
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+            color: var(--text-dark);
+        }
+
+        .service-card p {
+            color: var(--text-light);
+            font-weight: 300;
+            font-size: 0.92rem;
+            line-height: 1.7;
+        }
+
+        /* ── PORTFOLIO ── */
+        .portfolio-placeholder {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.04);
+            border: 2px dashed rgba(168,237,234,0.4);
+        }
+
+        .portfolio-placeholder .brush-row {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.5rem;
+            opacity: 0.5;
+        }
+
+        .portfolio-placeholder h3 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2rem;
+            background: linear-gradient(135deg, var(--sky), var(--lavender));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.75rem;
+        }
+
+        .portfolio-placeholder p {
+            color: var(--text-light);
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+        }
+
+        /* ── CONTACT ── */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .contact-item-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--mint), var(--sky));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .contact-item-text a {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 400;
+            transition: color 0.3s;
+        }
+
+        .contact-item-text a:hover {
+            color: var(--sky);
+        }
+
+        .contact-item-text span {
+            display: block;
+            color: var(--text-light);
+            font-size: 0.85rem;
+            font-weight: 300;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            padding: 0.9rem 1.2rem;
+            border: 1px solid rgba(168,237,234,0.4);
+            border-radius: 12px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+            background: var(--white);
+            outline: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            resize: vertical;
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            border-color: var(--sky);
+            box-shadow: 0 0 0 3px rgba(147,197,240,0.15);
+        }
+
+        .contact-form input::placeholder,
+        .contact-form textarea::placeholder {
+            color: var(--text-light);
+            font-weight: 300;
+        }
+
+        .contact-form textarea {
+            min-height: 120px;
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            background: linear-gradient(135deg, var(--mint) 0%, var(--sky) 40%, var(--lavender) 100%);
+            padding: 2.5rem 2rem;
+            text-align: center;
+            color: rgba(255,255,255,0.9);
+        }
+
+        .footer-logo {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2rem;
+            color: var(--white);
+            margin-bottom: 0.5rem;
+        }
+
+        footer p {
+            font-size: 0.85rem;
+            font-weight: 300;
+            color: rgba(255,255,255,0.7);
+        }
+
+        footer a {
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: var(--white);
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                background: rgba(255,255,255,0.97);
+                backdrop-filter: blur(12px);
+                padding: 1.5rem 2rem;
+                gap: 1.2rem;
+                border-bottom: 1px solid rgba(168,237,234,0.3);
+            }
+
+            .nav-links.open {
+                display: flex;
+            }
+
+            .nav-toggle {
+                display: block;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 2rem;
+            }
+
+            .about-icon {
+                margin: 0 auto;
+                width: 150px;
+                height: 150px;
+                font-size: 3.5rem;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            section {
+                padding: 3.5rem 1.25rem;
+            }
+        }
+
+        /* ── FADE-IN ANIMATION ── */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
 </head>
 <body>
 
-  <!-- ── Header ── -->
-  <header class="header" id="header">
-    <div class="container">
-      <a href="#" class="logo">Maritime <span>Murals</span></a>
-      <nav class="nav-links" id="navLinks">
-        <a href="#about">About</a>
-        <a href="#portfolio">Portfolio</a>
-        <a href="#services">Services</a>
-        <a href="#contact">Contact</a>
-      </nav>
-      <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-  </header>
+    <!-- NAV -->
+    <nav id="navbar">
+        <a href="#" class="nav-logo">Maritime Murals</a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#about">About</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#portfolio">Portfolio</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
 
-  <!-- ── Hero ── -->
-  <section class="hero" id="hero">
-    <div class="hero-content">
-      <p class="hero-label">Hand-Painted Murals &bull; Maritime Canada</p>
-      <h1>Walls That<br>Speak <em>Colour</em></h1>
-      <p class="hero-sub">Bold, vibrant, custom murals that turn blank walls into unforgettable works of art across the Maritimes.</p>
-      <a href="#portfolio" class="hero-btn">View My Work</a>
-    </div>
-    <div class="hero-scroll">Scroll</div>
-  </section>
-
-  <!-- ── About ── -->
-  <section class="about" id="about">
-    <div class="container">
-      <div class="about-grid">
-        <div class="about-image fade-in-left">
-          <img src="https://picsum.photos/seed/artist/600/500" alt="Payton Schofield painting a mural" loading="lazy">
+    <!-- HERO -->
+    <section class="hero" id="hero">
+        <div class="hero-content">
+            <div class="hero-brush">🖌️</div>
+            <h1>Maritime Murals</h1>
+            <p class="hero-tagline">Custom Murals &amp; Paintings</p>
+            <p class="hero-location">New Brunswick, Canada</p>
+            <a href="#contact" class="btn btn-primary">Get in Touch</a>
         </div>
-        <div class="about-text fade-in-right">
-          <p class="section-label">About the Artist</p>
-          <h2 class="section-title">Where Walls Become Canvases</h2>
-          <p>Hey — I'm Payton, the artist behind Maritime Murals. I've always believed that every blank wall is just an opportunity waiting to explode with colour.</p>
-          <p>From vibrant bedroom transformations to eye-catching commercial installations that stop people in their tracks, I bring bold energy and a fearless approach to colour to every project. Each mural starts with your vision and ends with something that makes your space unmistakably <em>alive</em>.</p>
-          <p>Based in New Brunswick with roots across the Maritimes, I bring east coast grit, creativity, and a whole lot of paint to every wall I touch.</p>
-          <p class="about-signature">— Payton Schofield</p>
+        <div class="hero-scroll">
+            <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
         </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ── Portfolio ── -->
-  <section class="portfolio" id="portfolio">
-    <div class="container">
-      <p class="section-label fade-in">Selected Works</p>
-      <h2 class="section-title fade-in">Portfolio</h2>
-      <hr class="section-divider fade-in">
-
-      <div class="gallery-grid">
-        <div class="gallery-item fade-in">
-          <img src="https://picsum.photos/seed/mural1/800/400" alt="Botanical mural in a modern living room" loading="lazy">
-          <div class="gallery-overlay">
-            <h4>Botanical Haven</h4>
-            <span>Residential</span>
-          </div>
+    <!-- ABOUT -->
+    <section class="section-white" id="about">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2>About the Artist</h2>
+                <div class="divider"></div>
+            </div>
+            <div class="about-grid fade-in">
+                <div class="about-icon">🎨</div>
+                <div class="about-text">
+                    <h3>Payton Schofield</h3>
+                    <p>I'm a muralist and painter based in New Brunswick, Canada. I create custom murals and artwork that bring spaces to life — from cozy children's bedrooms to large-scale commercial walls.</p>
+                    <p>Every project starts with your vision. Whether you have a detailed concept in mind or just a colour palette and a feeling, I'll work with you to create something truly unique for your space.</p>
+                </div>
+            </div>
         </div>
+    </section>
 
-        <div class="gallery-item fade-in">
-          <img src="https://picsum.photos/seed/mural2/600/450" alt="Abstract mural for a boutique hotel" loading="lazy">
-          <div class="gallery-overlay">
-            <h4>Golden Hour</h4>
-            <span>Commercial</span>
-          </div>
+    <!-- SERVICES -->
+    <section class="section-gradient" id="services">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2>Services</h2>
+                <div class="divider"></div>
+                <p>Bringing colour and creativity to every kind of space</p>
+            </div>
+            <div class="services-grid fade-in">
+                <div class="service-card">
+                    <div class="service-icon">🏠</div>
+                    <h3>Residential Murals</h3>
+                    <p>Transform any room in your home with a hand-painted mural tailored to your style — accent walls, hallways, dining rooms, and more.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🏢</div>
+                    <h3>Commercial Murals</h3>
+                    <p>Eye-catching murals for businesses, restaurants, offices, and public spaces that leave a lasting impression on customers and visitors.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🌈</div>
+                    <h3>Children's Rooms</h3>
+                    <p>Whimsical, playful murals designed to spark imagination — from enchanted forests to underwater worlds, made just for your little one.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🖼️</div>
+                    <h3>Custom Artwork</h3>
+                    <p>One-of-a-kind paintings and custom pieces created on canvas or other surfaces. Perfect as gifts or statement pieces for your home.</p>
+                </div>
+            </div>
         </div>
+    </section>
 
-        <div class="gallery-item fade-in">
-          <img src="https://picsum.photos/seed/mural3/600/450" alt="Whimsical children's mural" loading="lazy">
-          <div class="gallery-overlay">
-            <h4>Enchanted Forest</h4>
-            <span>Children's Room</span>
-          </div>
+    <!-- PORTFOLIO -->
+    <section class="section-white" id="portfolio">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2>Portfolio</h2>
+                <div class="divider"></div>
+                <p>A glimpse of my work — more coming soon!</p>
+            </div>
+            <div class="gallery-grid fade-in" style="display:grid;grid-template-columns:1fr;max-width:700px;margin:0 auto;gap:1.5rem;">
+                <div style="border-radius:16px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,0.1);">
+                    <img src="ocean-mural.jpg" alt="Underwater ocean mural - children's room" style="width:100%;height:auto;display:block;">
+                    <div style="padding:1rem 1.5rem;background:white;">
+                        <h4 style="font-family:'Outfit',sans-serif;font-weight:600;color:#3a3a5c;margin:0 0 0.25rem;">Underwater World</h4>
+                        <span style="font-size:0.85rem;color:#b8a9c9;font-weight:600;letter-spacing:1px;text-transform:uppercase;">Children's Room Mural</span>
+                    </div>
+                </div>
+            </div>
+            <div style="text-align:center;margin-top:2.5rem;" class="fade-in">
+                <p style="color:#6b6b8a;margin-bottom:1.25rem;">More projects coming soon — contact me to see additional examples!</p>
+                <a href="#contact" class="btn btn-gradient">Get in Touch</a>
+            </div>
         </div>
+    </section>
 
-        <div class="gallery-item fade-in">
-          <img src="https://picsum.photos/seed/mural4/600/450" alt="Mountain landscape mural" loading="lazy">
-          <div class="gallery-overlay">
-            <h4>Mountain Whisper</h4>
-            <span>Feature Wall</span>
-          </div>
+    <!-- CONTACT -->
+    <section class="section-gradient" id="contact">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2>Get in Touch</h2>
+                <div class="divider"></div>
+                <p>Have a project in mind? I'd love to hear about it.</p>
+            </div>
+            <div class="contact-grid fade-in">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-item-icon">✉️</div>
+                        <div class="contact-item-text">
+                            <a href="mailto:paytonschofield@icloud.com">paytonschofield@icloud.com</a>
+                            <span>Email</span>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-item-icon">📞</div>
+                        <div class="contact-item-text">
+                            <a href="tel:+15062951716">506 295-1716</a>
+                            <span>Phone</span>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-item-icon">📸</div>
+                        <div class="contact-item-text">
+                            <a href="https://instagram.com/eastcoastmurals" target="_blank" rel="noopener">@eastcoastmurals</a>
+                            <span>Instagram</span>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-item-icon">📍</div>
+                        <div class="contact-item-text">
+                            <span style="color: var(--text-dark); font-weight: 400;">New Brunswick, Canada</span>
+                            <span>Location</span>
+                        </div>
+                    </div>
+                </div>
+                <form class="contact-form" action="https://formsubmit.co/paytonschofield@icloud.com" method="POST">
+                    <input type="text" name="name" placeholder="Your Name" required>
+                    <input type="email" name="email" placeholder="Your Email" required>
+                    <input type="text" name="subject" placeholder="Project Type (e.g. Children's Room Mural)">
+                    <textarea name="message" placeholder="Tell me about your project..." required></textarea>
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_subject" value="New inquiry from Maritime Murals website">
+                    <button type="submit" class="btn btn-gradient">Send Message</button>
+                </form>
+            </div>
         </div>
+    </section>
 
-        <div class="gallery-item fade-in">
-          <img src="https://picsum.photos/seed/mural5/600/450" alt="Abstract geometric mural for an office" loading="lazy">
-          <div class="gallery-overlay">
-            <h4>Convergence</h4>
-            <span>Office Space</span>
-          </div>
-        </div>
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-logo">Maritime Murals</div>
+        <p>&copy; 2026 Maritime Murals — Payton Schofield</p>
+        <p style="margin-top: 0.4rem;"><a href="https://instagram.com/eastcoastmurals" target="_blank" rel="noopener">@eastcoastmurals</a></p>
+    </footer>
 
-        <div class="gallery-item fade-in">
-          <img src="https://picsum.photos/seed/mural6/800/400" alt="Floral mural for a café" loading="lazy">
-          <div class="gallery-overlay">
-            <h4>Wildflower Wall</h4>
-            <span>Café &amp; Restaurant</span>
-          </div>
-        </div>
+    <script>
+        // Nav scroll effect
+        const nav = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            nav.classList.toggle('scrolled', window.scrollY > 50);
+        });
 
-        <div class="gallery-item fade-in">
-          <img src="https://picsum.photos/seed/mural7/600/450" alt="Ocean-inspired mural" loading="lazy">
-          <div class="gallery-overlay">
-            <h4>Tidal</h4>
-            <span>Residential</span>
-          </div>
-        </div>
+        // Mobile nav toggle
+        const toggle = document.getElementById('navToggle');
+        const links = document.getElementById('navLinks');
+        toggle.addEventListener('click', () => links.classList.toggle('open'));
+        links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => links.classList.remove('open')));
 
-        <div class="gallery-item fade-in">
-          <img src="https://picsum.photos/seed/mural8/600/450" alt="Large exterior mural" loading="lazy">
-          <div class="gallery-overlay">
-            <h4>Street Canvas</h4>
-            <span>Exterior</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+        // Fade-in on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }});
+        }, { threshold: 0.15 });
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    </script>
 
-  <!-- ── Services ── -->
-  <section class="services" id="services">
-    <div class="container">
-      <p class="section-label fade-in">What I Offer</p>
-      <h2 class="section-title fade-in">Services</h2>
-      <hr class="section-divider fade-in">
-
-      <div class="services-grid">
-        <div class="service-card fade-in">
-          <span class="service-icon">🏡</span>
-          <h3>Residential Murals</h3>
-          <p>Transform bedrooms, living rooms, and hallways into personal art galleries. Your home, your story, your walls.</p>
-        </div>
-
-        <div class="service-card fade-in">
-          <span class="service-icon">🏢</span>
-          <h3>Commercial Spaces</h3>
-          <p>Elevate restaurants, offices, hotels, and retail spaces with murals that captivate customers and inspire teams.</p>
-        </div>
-
-        <div class="service-card fade-in">
-          <span class="service-icon">🌈</span>
-          <h3>Children's Rooms</h3>
-          <p>Whimsical, playful designs that spark imagination — from fairy-tale forests to underwater adventures.</p>
-        </div>
-
-        <div class="service-card fade-in">
-          <span class="service-icon">🎨</span>
-          <h3>Custom Artwork</h3>
-          <p>Fully bespoke designs tailored to your vision. Abstract, botanical, geometric — if you can dream it, I can paint it.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── Testimonial ── -->
-  <section class="testimonial-banner">
-    <div class="container fade-in">
-      <blockquote>"She didn't just paint a wall — she gave our space a soul. Every guest stops and stares. It's the heart of our home now."</blockquote>
-      <cite>— Sarah M., Fredericton</cite>
-    </div>
-  </section>
-
-  <!-- ── Contact ── -->
-  <section class="contact" id="contact">
-    <div class="container">
-      <p class="section-label fade-in" style="text-align:center;">Get in Touch</p>
-      <h2 class="section-title fade-in" style="text-align:center;">Let's Create Something Bold</h2>
-      <hr class="section-divider fade-in">
-
-      <div class="contact-grid">
-        <div class="contact-info fade-in-left">
-          <h3>Start Your Project</h3>
-          <p>Have a wall that's calling out for colour? I'd love to hear about your vision. Reach out for a free consultation and let's bring your space to life.</p>
-
-          <div class="contact-detail">
-            <div class="contact-detail-icon">📞</div>
-            <span><a href="tel:+15062951716">506 295-1716</a></span>
-          </div>
-          <div class="contact-detail">
-            <div class="contact-detail-icon">✉️</div>
-            <span><a href="mailto:paytonschofield@icloud.com">paytonschofield@icloud.com</a></span>
-          </div>
-          <div class="contact-detail">
-            <div class="contact-detail-icon">📸</div>
-            <span><a href="https://instagram.com/eastcoastmurals" target="_blank" rel="noopener">@eastcoastmurals</a></span>
-          </div>
-          <div class="contact-detail">
-            <div class="contact-detail-icon">📍</div>
-            <span>New Brunswick, Canada</span>
-          </div>
-        </div>
-
-        <form class="contact-form fade-in-right" onsubmit="handleSubmit(event)">
-          <div class="form-group">
-            <input type="text" name="name" placeholder="Your Name" required>
-          </div>
-          <div class="form-group">
-            <input type="email" name="email" placeholder="Your Email" required>
-          </div>
-          <div class="form-group">
-            <input type="text" name="subject" placeholder="Project Type (e.g. Residential, Commercial)">
-          </div>
-          <div class="form-group">
-            <textarea name="message" placeholder="Tell me about your project..." required></textarea>
-          </div>
-          <button type="submit" class="submit-btn">Send Message</button>
-        </form>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── Footer ── -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-content">
-        <div class="footer-logo">Maritime <span>Murals</span></div>
-        <div class="footer-links">
-          <a href="#about">About</a>
-          <a href="#portfolio">Portfolio</a>
-          <a href="#services">Services</a>
-          <a href="#contact">Contact</a>
-        </div>
-        <p class="footer-copy">&copy; 2026 Maritime Murals. All rights reserved.</p>
-      </div>
-    </div>
-  </footer>
-
-  <script>
-    /* ── Sticky Header ── */
-    const header = document.getElementById('header');
-    window.addEventListener('scroll', () => {
-      header.classList.toggle('scrolled', window.scrollY > 60);
-    });
-
-    /* ── Mobile Menu ── */
-    const menuToggle = document.getElementById('menuToggle');
-    const navLinks = document.getElementById('navLinks');
-
-    menuToggle.addEventListener('click', () => {
-      menuToggle.classList.toggle('active');
-      navLinks.classList.toggle('open');
-    });
-
-    navLinks.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        menuToggle.classList.remove('active');
-        navLinks.classList.remove('open');
-      });
-    });
-
-    /* ── Scroll Animations ── */
-    const observerOptions = { threshold: 0.15, rootMargin: '0px 0px -50px 0px' };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const parent = entry.target.parentElement;
-          const siblings = Array.from(parent.children).filter(el =>
-            el.classList.contains('fade-in') ||
-            el.classList.contains('fade-in-left') ||
-            el.classList.contains('fade-in-right')
-          );
-          const index = siblings.indexOf(entry.target);
-          const delay = index >= 0 ? index * 100 : 0;
-
-          setTimeout(() => {
-            entry.target.classList.add('visible');
-          }, delay);
-
-          observer.unobserve(entry.target);
-        }
-      });
-    }, observerOptions);
-
-    document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right').forEach(el => {
-      observer.observe(el);
-    });
-
-    /* ── Form Handler ── */
-    function handleSubmit(e) {
-      e.preventDefault();
-      const btn = e.target.querySelector('.submit-btn');
-      const originalText = btn.textContent;
-      btn.textContent = 'Message Sent ✓';
-      btn.style.background = 'var(--purple)';
-      btn.style.color = 'var(--white)';
-      setTimeout(() => {
-        btn.textContent = originalText;
-        btn.style.background = '';
-        btn.style.color = '';
-        e.target.reset();
-      }, 3000);
-    }
-
-    /* ── Active Nav Highlight ── */
-    const sections = document.querySelectorAll('section[id]');
-    window.addEventListener('scroll', () => {
-      const scrollY = window.scrollY + 120;
-      sections.forEach(section => {
-        const top = section.offsetTop;
-        const height = section.offsetHeight;
-        const id = section.getAttribute('id');
-        const link = document.querySelector(`.nav-links a[href="#${id}"]`);
-        if (link) {
-          link.style.opacity = (scrollY >= top && scrollY < top + height) ? '1' : '';
-        }
-      });
-    });
-  </script>
 </body>
 </html>
