@@ -426,6 +426,64 @@
             margin-bottom: 1.5rem;
         }
 
+        /* ── GALLERY ── */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .gallery-item {
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            background: var(--white);
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 48px rgba(147,197,240,0.2);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .gallery-caption {
+            padding: 1rem 1.5rem;
+        }
+
+        .gallery-caption h4 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin: 0 0 0.25rem;
+        }
+
+        .gallery-caption span {
+            font-size: 0.85rem;
+            color: var(--lavender);
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 480px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-item img {
+                height: 220px;
+            }
+        }
+
         /* ── CONTACT ── */
         .contact-grid {
             display: grid;
@@ -699,17 +757,59 @@
                 <div class="divider"></div>
                 <p>A glimpse of my work — more coming soon!</p>
             </div>
-            <div class="gallery-grid fade-in" style="display:grid;grid-template-columns:1fr;max-width:700px;margin:0 auto;gap:1.5rem;">
-                <div style="border-radius:16px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,0.1);">
-                    <img src="ocean-mural.jpg" alt="Underwater ocean mural - children's room" style="width:100%;height:auto;display:block;">
-                    <div style="padding:1rem 1.5rem;background:white;">
-                        <h4 style="font-family:'Outfit',sans-serif;font-weight:600;color:#3a3a5c;margin:0 0 0.25rem;">Underwater World</h4>
-                        <span style="font-size:0.85rem;color:#b8a9c9;font-weight:600;letter-spacing:1px;text-transform:uppercase;">Children's Room Mural</span>
+            <div class="gallery-grid fade-in">
+                <div class="gallery-item">
+                    <img src="ocean-mural.jpg" alt="Underwater ocean mural - children's room" loading="lazy">
+                    <div class="gallery-caption">
+                        <h4>Underwater World</h4>
+                        <span>Children's Room Mural</span>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="gallery/garden-mural-1.jpg" alt="Whimsical garden mural with wildflowers, mushrooms and gnomes" loading="lazy">
+                    <div class="gallery-caption">
+                        <h4>Enchanted Garden</h4>
+                        <span>Commercial Mural</span>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="gallery/garden-mural-2.jpg" alt="Whimsical garden mural with blue flowers and mushrooms" loading="lazy">
+                    <div class="gallery-caption">
+                        <h4>Enchanted Garden II</h4>
+                        <span>Commercial Mural</span>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="gallery/music-mural.jpg" alt="Jazz trumpet player mural with colorful musical notes" loading="lazy">
+                    <div class="gallery-caption">
+                        <h4>Jazz Notes</h4>
+                        <span>Commercial Mural</span>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="gallery/quote-mural.jpg" alt="Take Chances Make Mistakes Get Messy inspirational quote mural" loading="lazy">
+                    <div class="gallery-caption">
+                        <h4>Take Chances, Make Mistakes</h4>
+                        <span>Interior Mural</span>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="gallery/roses-painting.jpg" alt="Impressionistic pink roses painting on canvas" loading="lazy">
+                    <div class="gallery-caption">
+                        <h4>Garden Roses</h4>
+                        <span>Canvas Painting</span>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="gallery/doves-blossoms.jpg" alt="Two white doves on cherry blossom branch painting" loading="lazy">
+                    <div class="gallery-caption">
+                        <h4>Doves &amp; Blossoms</h4>
+                        <span>Canvas Painting</span>
                     </div>
                 </div>
             </div>
             <div style="text-align:center;margin-top:2.5rem;" class="fade-in">
-                <p style="color:#6b6b8a;margin-bottom:1.25rem;">More projects coming soon — contact me to see additional examples!</p>
+                <p style="color:#6b6b8a;margin-bottom:1.25rem;">Have a project in mind? Let's make it happen.</p>
                 <a href="#contact" class="btn btn-gradient">Get in Touch</a>
             </div>
         </div>
