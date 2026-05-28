@@ -568,6 +568,31 @@
             min-height: 120px;
         }
 
+        .contact-form input[type="file"] {
+            cursor: pointer;
+            color: var(--text-medium);
+            background: rgba(255,255,255,0.8);
+        }
+
+        .contact-form input[type="file"]::file-selector-button {
+            margin-right: 1rem;
+            padding: 0.55rem 1rem;
+            border: none;
+            border-radius: 999px;
+            background: linear-gradient(135deg, var(--mint), var(--sky));
+            color: var(--white);
+            font-family: 'Outfit', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .form-note {
+            margin-top: -0.35rem;
+            color: var(--text-light);
+            font-size: 0.85rem;
+            font-weight: 300;
+        }
+
         /* ── FOOTER ── */
         footer {
             background: linear-gradient(135deg, var(--mint) 0%, var(--sky) 40%, var(--lavender) 100%);
@@ -861,11 +886,13 @@
                         </div>
                     </div>
                 </div>
-                <form class="contact-form" action="https://formsubmit.co/paytonschofield@icloud.com" method="POST">
+                <form class="contact-form" action="https://formsubmit.co/paytonschofield@icloud.com" method="POST" enctype="multipart/form-data">
                     <input type="text" name="name" placeholder="Your Name" required>
                     <input type="email" name="email" placeholder="Your Email" required>
                     <input type="text" name="subject" placeholder="Project Type (e.g. Children's Room Mural)">
                     <textarea name="message" placeholder="Tell me about your project..." required></textarea>
+                    <input type="file" name="inspiration_image" accept="image/*" aria-label="Upload an inspiration image for your mural idea">
+                    <p class="form-note">Optional: upload an inspiration photo, sketch, room photo, or example of the style you have in mind.</p>
                     <input type="hidden" name="_captcha" value="false">
                     <input type="hidden" name="_subject" value="New inquiry from Maritime Murals website">
                     <button type="submit" class="btn btn-gradient">Send Message</button>
